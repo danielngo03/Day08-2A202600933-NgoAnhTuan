@@ -1,0 +1,17 @@
+{
+  "created_at": "2026-06-08T08:03:57.489646+00:00",
+  "vector_store": "local_numpy_jsonl",
+  "model_key": "openai_text_embedding_3_small",
+  "embedding_model": "text-embedding-3-small",
+  "embedding_dim": 1536,
+  "embedding_normalized": true,
+  "chunking_method": "recursive",
+  "chunk_size": 1200,
+  "chunk_overlap": 180,
+  "document_count": 10,
+  "chunk_count": 1021,
+  "files": {
+    "chunks": "chunks.jsonl",
+    "embeddings": "embeddings.npy"
+  }
+}

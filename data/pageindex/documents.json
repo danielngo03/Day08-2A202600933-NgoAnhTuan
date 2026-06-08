@@ -1,0 +1,40 @@
+{
+  "documents": [
+    {
+      "doc_id": "",
+      "filename": "bo-luat-hinh-su-2015.pdf",
+      "source_path": "data/landing/legal/bo-luat-hinh-su-2015.pdf",
+      "doc_type": "legal",
+      "status": "upload_failed",
+      "retrieval_ready": false,
+      "last_checked_error": "Failed to submit document: {\"detail\":\"LimitReached\"}"
+    },
+    {
+      "doc_id": "pi-cmq4xx2mx034101qxieb5442b",
+      "filename": "luat-phong-chong-ma-tuy-2025.pdf",
+      "source_path": "data/landing/legal/luat-phong-chong-ma-tuy-2025.pdf",
+      "doc_type": "legal",
+      "status": "completed",
+      "retrieval_ready": true,
+      "last_checked_error": null
+    },
+    {
+      "doc_id": "pi-cmq4xx428034301qx1x5bzpdc",
+      "filename": "nghi-dinh-19-2018-nd-cp.pdf",
+      "source_path": "data/landing/legal/nghi-dinh-19-2018-nd-cp.pdf",
+      "doc_type": "legal",
+      "status": "completed",
+      "retrieval_ready": true,
+      "last_checked_error": null
+    },
+    {
+      "doc_id": "pi-cmq4xx5ua034601qxviidyuo5",
+      "filename": "nghi-dinh-28-2026-nd-cp.pdf",
+      "source_path": "data/landing/legal/nghi-dinh-28-2026-nd-cp.pdf",
+      "doc_type": "legal",
+      "status": "completed",
+      "retrieval_ready": true,
+      "last_checked_error": null
+    }
+  ]
+}

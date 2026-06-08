@@ -13,5 +13,65 @@
     "question": "Danh mục các chất ma tuý thuộc nhóm I theo quy định pháp luật Việt Nam gồm những chất nào?",
     "expected_answer": "Nhóm I gồm các chất ma tuý tuyệt đối cấm sử dụng trong y học và đời sống, bao gồm heroin, cocaine, methamphetamine, MDMA (ecstasy), cannabis (cần sa), và các chất tương tự.",
     "expected_context": "Nghị định 57/2022/NĐ-CP, Phụ lục I"
+  },
+  {
+    "question": "Hình phạt cho tội tổ chức sử dụng trái phép chất ma tuý theo Điều 255 Bộ luật Hình sự là gì?",
+    "expected_answer": "Khung hình phạt cơ bản là phạt tù từ 2 đến 7 năm. Nếu thuộc các trường hợp nghiêm trọng hơn thì có thể phạt tù từ 7 năm đến 15 năm, 15 năm đến 20 năm, hoặc tù chung thân.",
+    "expected_context": "Bộ luật Hình sự 2015, Điều 255"
+  },
+  {
+    "question": "Tội cưỡng bức người khác sử dụng trái phép chất ma tuý theo Điều 257 Bộ luật Hình sự có mức phạt tù như thế nào?",
+    "expected_answer": "Phạt tù từ 2 đến 7 năm. Nếu có tình tiết tăng nặng như đối với người dưới 16 tuổi hoặc gây tổn hại sức khoẻ thì phạt tù từ 7 đến 15 năm, 15 đến 20 năm, hoặc chung thân.",
+    "expected_context": "Bộ luật Hình sự 2015, Điều 257"
+  },
+  {
+    "question": "Cơ quan chuyên trách phòng, chống tội phạm về ma túy gồm những cơ quan nào theo Luật Phòng chống ma tuý 2021?",
+    "expected_answer": "Cơ quan chuyên trách thuộc Công an nhân dân, lực lượng Bộ đội Biên phòng, lực lượng Cảnh sát biển, và cơ quan Hải quan.",
+    "expected_context": "Luật Phòng chống ma tuý 2021, Điều 5"
+  },
+  {
+    "question": "Trách nhiệm của gia đình trong phòng, chống ma túy là gì theo Luật Phòng chống ma tuý 2021?",
+    "expected_answer": "Giáo dục thành viên gia đình, quản lý, ngăn chặn việc sử dụng ma túy, phối hợp với cơ quan có thẩm quyền trong việc cai nghiện và đấu tranh phòng chống ma túy.",
+    "expected_context": "Luật Phòng chống ma tuý 2021, Điều 6"
+  },
+  {
+    "question": "Người sử dụng trái phép chất ma túy bị lập danh sách và quản lý trong thời hạn bao lâu?",
+    "expected_answer": "Thời hạn quản lý người sử dụng trái phép chất ma túy là 01 năm kể từ ngày có kết quả xét nghiệm dương tính.",
+    "expected_context": "Luật Phòng chống ma tuý 2021, Điều 23"
+  },
+  {
+    "question": "Các trường hợp nào phải xét nghiệm chất ma túy trong cơ thể?",
+    "expected_answer": "Người bị phát hiện sử dụng trái phép chất ma túy, người bị nghi ngờ sử dụng ma túy có căn cứ, hoặc người đang trong thời gian quản lý sử dụng ma túy.",
+    "expected_context": "Luật Phòng chống ma tuý 2021, Điều 22"
+  },
+  {
+    "question": "Ca sĩ Chu Bin bị Công an Quận 10 tạm giữ vì nghi vấn gì và kết quả xử lý thế nào?",
+    "expected_answer": "Ca sĩ Chu Bin (Chu Đăng Thanh) bị tạm giữ vì nghi vấn tổ chức, sử dụng trái phép chất ma túy với nhóm 6 người. Sau đó anh được thả và bị xử phạt hành chính, trong khi 4 người khác tiếp tục bị giữ.",
+    "expected_context": "VTV News, Chu Bin"
+  },
+  {
+    "question": "Ca sĩ Chi Dân bị truy tố về tội danh gì và vụ việc diễn ra ở đâu?",
+    "expected_answer": "Ca sĩ Chi Dân (Nguyễn Trung Hiếu) bị truy tố về \"Tội tổ chức sử dụng trái phép chất ma túy\" sau khi cùng nhóm bạn hùn tiền mua ma túy (Ketamine và MDMA) sử dụng tại quận Tân Bình, TP.HCM.",
+    "expected_context": "Kenh14, Chi Dân"
+  },
+  {
+    "question": "Người mẫu An Tây (Andrea Aybar) bị truy tố về những tội danh gì liên quan đến ma túy?",
+    "expected_answer": "Người mẫu An Tây bị truy tố về tội \"Tổ chức sử dụng trái phép chất ma túy\" và \"Tàng trữ trái phép chất ma túy\" sau khi tổ chức sử dụng chung ma túy với trợ lý và bạn bè tại căn hộ của mình.",
+    "expected_context": "Kenh14, An Tây"
+  },
+  {
+    "question": "Ca sĩ Miu Lê bị bắt vì cáo buộc gì?",
+    "expected_answer": "Ca sĩ Miu Lê bị bắt với cáo buộc tổ chức sử dụng trái phép chất ma túy cùng hai người bạn tại căn hộ cao cấp.",
+    "expected_context": "VnExpress, Miu Lê"
+  },
+  {
+    "question": "Rapper Bình Gold bị bắt vì hành vi gì và xét nghiệm ma túy có kết quả như thế nào?",
+    "expected_answer": "Rapper Bình Gold bị bắt vì hành vi cướp tài sản và có kết quả xét nghiệm dương tính với ma túy.",
+    "expected_context": "Tuoitre, Bình Gold"
+  },
+  {
+    "question": "Vụ án khởi tố Long Nhật, Sơn Ngọc Minh cùng các bị can khác liên quan đến hành vi gì?",
+    "expected_answer": "Khởi tố bắt tạm giam Long Nhật, Sơn Ngọc Minh cùng 69 bị can liên quan đến đường dây ma túy lớn.",
+    "expected_context": "Chinhphu, Long Nhật"
   }
 ]

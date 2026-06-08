@@ -1,0 +1,25 @@
+# Group RAG chatbot dependencies
+python-dotenv>=1.0.0
+requests>=2.31.0
+
+# Ingestion and markdown conversion
+markitdown[pdf]>=0.1.0
+
+# Chunking
+langchain-text-splitters>=0.2.0
+
+# Retrieval
+openai>=1.30.0
+weaviate-client>=4.5.0
+rank-bm25>=0.2.2
+whoosh>=2.7.4
+
+# Local reranking
+sentence-transformers>=2.2.0
+
+# UI
+chainlit>=2.11.0
+aiosqlite>=0.20.0
+sqlalchemy>=2.0.0
+greenlet>=3.0.0
+

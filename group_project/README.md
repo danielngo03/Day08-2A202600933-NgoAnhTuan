@@ -171,8 +171,84 @@ run_dashboard()
 ## Kiến Trúc Hệ Thống
 
 ```
-[Vẽ diagram kiến trúc ở đây]
+Chainlit UI (http://127.0.0.1:8000)
+   │
+   ├─ Interactive Settings (cl.ChatSettings)
+   │     ├─ Lexical Method: BM25 (Whoosh) / TF-IDF (pure Python)
+   │     ├─ HyDE: bật/tắt Hypothetical Document Embeddings
+   │     └─ Reranking: bật/tắt Cross-Encoder
+   │
+   ├─ Conversation Summary Buffer Memory
+   │     ├─ giữ vài lượt gần nhất (buffer)
+   │     └─ tóm tắt lượt cũ bằng GPT-4o-mini (summary)
+   │
+   └─ GroupRAGPipeline
+        │
+        ├─ [1] Query Rewriting  ← GPT-4o-mini (chỉ kích hoạt khi có lịch sử)
+        │
+        ├─ [2] HyDE (Bonus — tuỳ chọn)
+        │        └─ GPT-4o-mini sinh văn bản giả định → embed → dense search
+        │
+        ├─ [3] Ingestion & Chunking
+        │    ├─ Legal (PDF/DOCX/MD): MarkdownHeaderTextSplitter
+        │    │       → Chương / Mục / Điều / Khoản
+        │    └─ News (JSON/HTML/TXT): RecursiveCharacterTextSplitter
+        │
+        ├─ [4] Hybrid Retrieval
+        │    ├─ Dense : OpenAI text-embedding-3-small → Weaviate (Docker)
+        │    │          fallback: local vector index
+        │    ├─ Lexical: Whoosh BM25 (mặc định) hoặc TF-IDF thuần Python (Bonus)
+        │    └─ Fusion : Reciprocal Rank Fusion (RRF α = 0.5)
+        │
+        ├─ [5] Reranking (tuỳ chọn)
+        │        └─ BAAI/bge-reranker-v2-m3 CrossEncoder (local, không cần GPU)
+        │
+        └─ [6] Generation
+                 ├─ GPT-4o-mini (temperature = 0.1)
+                 ├─ Citation label inline [Nguồn, Năm]
+                 └─ Hiển thị source documents trong sidebar
 ```
+
+### Stack kỹ thuật
+
+| Lớp | Công nghệ |
+|-----|-----------|
+| UI | Chainlit 2.x + `cl.ChatSettings` |
+| Embedding | OpenAI `text-embedding-3-small` (1536-d) |
+| Vector DB | Weaviate Local (Docker) + local fallback |
+| Lexical | Whoosh BM25 · TF-IDF thuần Python (Bonus) |
+| Fusion | Reciprocal Rank Fusion (RRF) |
+| Reranker | `BAAI/bge-reranker-v2-m3` (CrossEncoder local) |
+| Memory | Summary Buffer Memory (GPT-4o-mini tóm tắt) |
+| Generation | OpenAI `gpt-4o-mini` |
+| Evaluation | DeepEval (Faithfulness / Relevancy / Recall / Precision) |
+
+### Cấu trúc module
+
+Project nhóm chạy độc lập từ root `group_project/`. Code Python chính nằm trong `src/`:
+
+| Module | Vai trò |
+|--------|---------|
+| `.env` | Biến môi trường riêng của bài nhóm |
+| `docker-compose.yml` | Weaviate Local Docker |
+| `run.py` | Một lệnh chạy Docker + index + Chainlit |
+| `src/config.py` | Config tập trung (model, top-k, threshold) |
+| `src/data/landing/` | Raw data: PDF legal + JSON/HTML news |
+| `src/data/standardized/` | Markdown chuẩn hoá từ landing |
+| `src/chunking/legal_chunker.py` | Chunk văn bản luật theo cấu trúc pháp lý |
+| `src/ingestion/standardize.py` | Convert landing → standardized |
+| `src/retrieval/embeddings.py` | OpenAI embedding helper |
+| `src/retrieval/weaviate_store.py` | Kết nối / index / search Weaviate Local |
+| `src/retrieval/vectorless_bm25.py` | Whoosh BM25 **và** TF-IDF thuần Python (Bonus) |
+| `src/retrieval/hybrid.py` | Dense + Lexical + RRF fusion |
+| `src/reranking/local_cross_encoder.py` | Local reranker `BAAI/bge-reranker-v2-m3` |
+| `src/memory/summary_memory.py` | Conversation summary buffer memory |
+| `src/generation/answer_generator.py` | GPT-4o-mini trả lời có citation |
+| `src/pipeline.py` | End-to-end RAG pipeline (HyDE + rerank + memory) |
+| `src/ui/chainlit_app.py` | Chainlit chatbot UI + interactive settings |
+| `evaluation/golden_dataset.json` | 15 cặp Q&A ground-truth |
+| `evaluation/eval_pipeline.py` | DeepEval evaluation + A/B comparison |
+| `evaluation/results.md` | Báo cáo kết quả evaluation |
 
 ---
 
@@ -190,14 +266,75 @@ run_dashboard()
 ## Hướng Dẫn Chạy
 
 ```bash
-# Cài đặt dependencies
-pip install -r requirements.txt
+# Đứng tại thư mục group_project
+cd Lab8/group_project
 
-# Chạy app
-streamlit run app.py
-# hoặc
-chainlit run app.py
+# Tạo môi trường riêng cho bài nhóm
+python3.12 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+
+# Tạo env riêng cho bài nhóm
+cp .env.example .env
+# Sau đó điền OPENAI_API_KEY vào .env
+
+# Một lệnh chạy toàn bộ:
+# 1. bật Weaviate Docker
+# 2. đợi Weaviate sẵn sàng
+# 3. auto-standardize src/data/landing -> src/data/standardized
+# 4. index Whoosh + Weaviate
+# 5. mở Chainlit UI
+.venv/bin/python run.py
 ```
+
+Mở trình duyệt tại:
+
+```text
+http://127.0.0.1:8000
+```
+
+Các lệnh phụ:
+
+```bash
+# Chỉ bật Docker + index, không mở UI
+.venv/bin/python run.py --no-ui
+
+# Không bật Docker, chỉ dùng local dense fallback + Whoosh BM25
+.venv/bin/python run.py --no-docker --skip-weaviate-index
+
+# Reset toàn bộ index trước khi ghi lại
+.venv/bin/python run.py --reset-index
+
+# Tự bật Docker thủ công nếu cần
+docker compose up -d
+```
+
+Biến môi trường nằm riêng trong `group_project/.env`:
+
+```bash
+OPENAI_API_KEY=...
+OPENAI_CHAT_MODEL=gpt-4o-mini
+AUTO_START_DOCKER=true
+AUTO_INDEX_ON_START=true
+WEAVIATE_LOCAL_HOST=localhost
+WEAVIATE_LOCAL_HTTP_PORT=8080
+WEAVIATE_LOCAL_GRPC_PORT=50051
+CHAINLIT_HOST=127.0.0.1
+CHAINLIT_PORT=8000
+LOCAL_RERANKER_MODEL=BAAI/bge-reranker-v2-m3
+```
+
+### Thêm dữ liệu mới
+
+- Legal PDF/DOCX: đặt vào `src/data/landing/legal/`
+- News JSON/HTML/MD/TXT: đặt vào `src/data/landing/news/`
+- Chạy lại:
+
+```bash
+.venv/bin/python -m src.ingestion.standardize
+.venv/bin/python -m src.index_weaviate --reset
+```
+
+Khi index/chunk, hệ thống cũng tự gọi standardize nếu `AUTO_STANDARDIZE=true` trong `.env`, nên file mới ở landing sẽ được cập nhật sang `src/data/standardized/`.
 
 ---
 
